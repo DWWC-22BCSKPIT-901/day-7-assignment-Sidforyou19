@@ -1,0 +1,51 @@
+#include <vector>
+#include<iostream>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>> result;
+        vector<int> path;
+        dfs(graph, 0, path, result);
+        return result;
+    }
+
+private:
+    void dfs(vector<vector<int>>& graph, int node, vector<int>& path, vector<vector<int>>& result) {
+        path.push_back(node); 
+    
+        if (node == graph.size() - 1) {
+            result.push_back(path);
+        } else {
+            for (int neighbor : graph[node]) {
+                dfs(graph, neighbor, path, result);
+            }
+        }
+        
+        path.pop_back();
+    }
+};
+
+int main() {
+    vector<vector<int>> graph1 = {{1, 2}, {3}, {3}, {}};
+    Solution solution;
+    vector<vector<int>> result1 = solution.allPathsSourceTarget(graph1);
+    for (const auto& path : result1) {
+        for (int node : path) {
+            printf("%d ", node);
+        }
+        printf("\n");
+    }
+
+    vector<vector<int>> graph2 = {{4, 3, 1}, {3, 2, 4}, {3}, {4}, {}};
+    vector<vector<int>> result2 = solution.allPathsSourceTarget(graph2);
+    for (const auto& path : result2) {
+        for (int node : path) {
+            printf("%d ", node);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
